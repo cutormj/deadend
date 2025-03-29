@@ -12,6 +12,7 @@
     "online": true,
     "pixelDepth": 24,
     "loadTime": 154,
+<<<<<<< HEAD
     "geolocation": "Latitude: 14.789529, Longitude: 121.077812"
   },
   {
@@ -28,5 +29,7 @@
     "pixelDepth": 24,
     "loadTime": 363,
     "geolocation": "Latitude: 14.789529, Longitude: 121.077812"
+=======
+>>>>>>> b18ffaefe11ccfc563ba3be51b2d96006418d674
   }
 ]
