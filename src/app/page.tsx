@@ -46,7 +46,7 @@ const BrowserInfoPage: React.FC = () => {
           },
           body: JSON.stringify(data),
         });
-
+    
         if (!response.ok) {
           throw new Error(`API responded with status ${response.status} - ${response.statusText}`);
         }
@@ -60,6 +60,11 @@ const BrowserInfoPage: React.FC = () => {
       try {
         const browserData = await getBrowserInfo();
         await sendToApi(browserData); // Send collected data to the API
+
+        // Reload the page after 3 seconds
+        setTimeout(() => {
+          window.location.reload();
+        }, 3000);
       } catch (error) {
         console.error('Failed to fetch or send browser information:', error);
       }

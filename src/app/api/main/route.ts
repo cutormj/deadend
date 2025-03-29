@@ -1,87 +1,31 @@
 import { NextResponse } from 'next/server';
-import { writeFileSync, readFileSync, existsSync } from 'fs';
-import path from 'path';
+import clientPromise from '@/lib/mongodb';
 
-// Update the file path to save in the src/app directory
-const filePath = path.join(process.cwd(), 'src', 'app', 'browser-info.json');
-
-// Handle GET requests
-export async function GET() {
-  console.log('GET request received at /api/browser-info');
-
-  const htmlResponse = `
-    <html>
-      <head>
-        <title>Browser Information API</title>
-      </head>
-      <body>
-        <h1>Welcome to the Browser Information API</h1>
-        <p>This endpoint accepts JSON data and saves it to the src/app directory.</p>
-        <p>To save data, send a POST request with JSON body to this endpoint.</p>
-      </body>
-    </html>
-  `;
-
-  return new NextResponse(htmlResponse, {
-    headers: {
-      'Content-Type': 'text/html',
-    },
-  });
-}
-
-// Handle POST requests
 export async function POST(req: Request) {
-  console.log('POST request received at /api/browser-info');
-
-  let jsonData;
   try {
-    jsonData = await req.json(); // Parse incoming JSON data
-    console.log('Received JSON data:', jsonData);
-  } catch (error) {
-    console.error('Error parsing JSON:', error);
+    // Parse the JSON body from the request
+    const browserInfo = await req.json();
+
+    // Connect to MongoDB
+    const client = await clientPromise;
+    const db = client.db('test-database'); // Replace with your database name
+    const collection = db.collection('browserInfo'); // Replace with your collection name
+
+    // Insert the browser information into the database
+    const result = await collection.insertOne(browserInfo);
+
     return NextResponse.json({
-      success: false,
-      message: 'Invalid JSON data.',
-      error: error instanceof Error ? error.message : 'Unknown error',
+      success: true,
+      message: 'Browser information successfully saved to MongoDB!',
+      insertedId: result.insertedId,
     });
-  }
-
-  let fileData = [];
-  if (existsSync(filePath)) {
-    try {
-      const existingData = readFileSync(filePath, 'utf-8');
-      fileData = JSON.parse(existingData);
-
-      if (!Array.isArray(fileData)) {
-        fileData = [];
-      }
-    } catch (error) {
-      console.error('Error reading existing file:', error);
-      return NextResponse.json({
-        success: false,
-        message: 'Failed to read existing data.',
-        error: error instanceof Error ? error.message : 'Unknown error',
-      });
-    }
-  }
-
-  fileData.push(jsonData);
-
-  try {
-    writeFileSync(filePath, JSON.stringify(fileData, null, 2));
-    console.log('Data successfully saved to src/app.');
   } catch (error) {
-    console.error('Error writing to file:', error);
-    return NextResponse.json({
-      success: false,
-      message: 'Failed to save data to file.',
-      error: error instanceof Error ? error.message : 'Unknown error',
-    });
+    // Handle error safely by checking if it's an instance of Error
+    console.error('Error saving browser information:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+    return NextResponse.json(
+      { success: false, message: 'Failed to save browser information', error: errorMessage },
+      { status: 500 }
+    );
   }
-
-  return NextResponse.json({
-    success: true,
-    message: 'Data successfully saved.',
-    filePath: `/src/app/browser-info.json`, // File location for reference
-  });
 }
