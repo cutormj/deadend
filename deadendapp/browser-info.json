@@ -1,0 +1,17 @@
+[
+  {
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36 Edg/134.0.0.0",
+    "language": "en-US",
+    "platform": "Win32",
+    "cookiesEnabled": true,
+    "screenResolution": "1920x1080",
+    "colorDepth": "24",
+    "timezone": "Asia/Taipei",
+    "hardwareConcurrency": 12,
+    "doNotTrack": "Unavailable",
+    "online": true,
+    "pixelDepth": 24,
+    "loadTime": 154,
+    "geolocation": "Latitude: 14.789529, Longitude: 121.077812"
+  }
+]
