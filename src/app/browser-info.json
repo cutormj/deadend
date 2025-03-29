@@ -11,8 +11,7 @@
     "doNotTrack": "Unavailable",
     "online": true,
     "pixelDepth": 24,
-    "loadTime": 154,
-<<<<<<< HEAD
+    "loadTime": 100,
     "geolocation": "Latitude: 14.789529, Longitude: 121.077812"
   },
   {
@@ -27,9 +26,7 @@
     "doNotTrack": "Unavailable",
     "online": true,
     "pixelDepth": 24,
-    "loadTime": 363,
+    "loadTime": 146,
     "geolocation": "Latitude: 14.789529, Longitude: 121.077812"
-=======
->>>>>>> b18ffaefe11ccfc563ba3be51b2d96006418d674
   }
 ]

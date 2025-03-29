@@ -1,10 +1,11 @@
-import { NextResponse } from 'next/server'; // Removed NextRequest for GET as unused
+import { NextResponse } from 'next/server';
 import { writeFileSync, readFileSync, existsSync } from 'fs';
 import path from 'path';
 
-const filePath = path.join(process.cwd(), 'browser-info.json'); // Path for saving data
+// Update the file path to save in the src/app directory
+const filePath = path.join(process.cwd(), 'src', 'app', 'browser-info.json');
 
-// Handle GET requests (Removed req parameter)
+// Handle GET requests
 export async function GET() {
   console.log('GET request received at /api/browser-info');
 
@@ -15,7 +16,7 @@ export async function GET() {
       </head>
       <body>
         <h1>Welcome to the Browser Information API</h1>
-        <p>This endpoint accepts JSON data and saves it to a file.</p>
+        <p>This endpoint accepts JSON data and saves it to the src/app directory.</p>
         <p>To save data, send a POST request with JSON body to this endpoint.</p>
       </body>
     </html>
@@ -30,7 +31,7 @@ export async function GET() {
 
 // Handle POST requests
 export async function POST(req: Request) {
-  console.log('POST request received at /api/main');
+  console.log('POST request received at /api/browser-info');
 
   let jsonData;
   try {
@@ -68,7 +69,7 @@ export async function POST(req: Request) {
 
   try {
     writeFileSync(filePath, JSON.stringify(fileData, null, 2));
-    console.log('Data successfully saved to file.');
+    console.log('Data successfully saved to src/app.');
   } catch (error) {
     console.error('Error writing to file:', error);
     return NextResponse.json({
@@ -81,6 +82,6 @@ export async function POST(req: Request) {
   return NextResponse.json({
     success: true,
     message: 'Data successfully saved.',
-    filePath: `/browser-info.json`,
+    filePath: `/src/app/browser-info.json`, // File location for reference
   });
 }
