@@ -13,10 +13,13 @@ export async function GET() {
       collections: collections.map((col) => col.collectionName),
     });
   } catch (error) {
+    // Safely access the error message using `instanceof Error`
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+
     return NextResponse.json({
       success: false,
       message: 'Failed to connect to MongoDB',
-      error: error.message,
+      error: errorMessage,
     });
   }
 }
