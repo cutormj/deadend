@@ -12,8 +12,7 @@ let clientPromise: Promise<MongoClient>;
 
 // Extend the type of globalThis to include _mongoClientPromise
 declare global {
-  // This declares a type for the global object
-  // You must use "var" instead of "let" or "const" to extend global scope
+  // eslint-disable-next-line no-var
   var _mongoClientPromise: Promise<MongoClient> | undefined;
 }
 
